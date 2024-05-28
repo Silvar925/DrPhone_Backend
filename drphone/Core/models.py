@@ -1,42 +1,55 @@
 from django.db import models
 
 
+class ColorProduct(models.Model):
+    name = models.CharField(max_length=30, verbose_name='Название цвета')
+    codeColor = models.CharField(max_length=30, verbose_name='Код цвета HEX/RGB/RGBa')
+    
+    class Meta:
+        verbose_name = "Цвет товара"
+        verbose_name_plural = "Цвет товаров"
+
+    def __str__(self) -> str:
+        return f"{self.name}"
+
+class ImagesProduct(models.Model):
+    name = models.CharField(max_length=30, verbose_name='Название изображения')
+    photo = models.ImageField(upload_to='media/ProductImages/', verbose_name="Изображение")
+
+    class Meta:
+        verbose_name = "Изображение товара"
+        verbose_name_plural = "Изображения товаров"
+
+    def __str__(self) -> str:
+        return f"{self.name}"
+
+
 class Product(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Название продукта')
-    images = models.ManyToManyField('ProductImage', verbose_name='Изображения продукта', blank=True)
+    SIM_CHOICES = [
+        ('SIM_SIM', 'SIM + SIM'),
+        ('ESIM_SIM', 'ESIM + SIM'),
+        ('ESIM_ONLY', 'ESIM ONLY'),
+    ]
 
-    def __str__(self):
-        return self.name
+    MEMORY_CHOICES = [
+        ('128Gb','128Gb'),
+        ('256Gb','256Gb'),
+        ('512Gb','512Gb'),
+        ('1024Gb','1024Gb'),
+        ('2048Gb','2048Gb'),
+    ]
 
-class ProductImage(models.Model):
-    image = models.ImageField(upload_to='product_images/', verbose_name='Изображение')
-
-    def __str__(self):
-        return f"Image {self.id}"
-
-
-
-class Service(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Название услуги')
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
-
-    def __str__(self):
-        return self.name
-
-
-class ProductOption(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')
-    color = models.CharField(max_length=50, verbose_name='Цвета')
-    memory = models.IntegerField(verbose_name='Объем памяти в гб')  # Объем памяти в ГБ
-    sim_type = models.CharField(max_length=50, verbose_name='Тип симкарты')
-
-    def __str__(self):
-        return f"{self.product.name} - {self.color}, {self.memory}GB, {self.sim_type}"
+    name = models.CharField(max_length=50, verbose_name='Название товара')
+    color = models.ManyToManyField(ColorProduct, verbose_name="Цвет")
+    memory = models.CharField(max_length=8, choices=MEMORY_CHOICES, blank=True, null=True, verbose_name='Память')
+    images = models.ManyToManyField(ImagesProduct, verbose_name="Изображение")
+    sim = models.CharField(max_length=20, choices=SIM_CHOICES, blank=True, null=True, verbose_name='СИМ КАРТА')
+    price = models.IntegerField(verbose_name="Цена", blank=True, null=True)
 
 
-class ProductPrice(models.Model):
-    product_option = models.ForeignKey(ProductOption, on_delete=models.CASCADE, verbose_name='Варианты продукта')
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена продукта')
+    class Meta:
+        verbose_name = "Товар"
+        verbose_name_plural = "Товары"
 
-    def __str__(self):
-        return f"{self.product_option} - {self.price}"
+    def __str__(self) -> str:
+        return f"{self.name} {self.color} {self.memory} {self.sim}"

@@ -1,9 +1,8 @@
 from django.urls import path
-from .views import ProductAPIView, ServiceAPIView, ProductOptionAPIView, ProductPriceAPIView
+from .views import ProductAPIView, ColorProductAPIView, ImagesProductAPIView
 
-urlsCoreApplication = [
-    path('api/Core/productList', ProductAPIView.as_view()),
-    path('api/Core/serviceList', ServiceAPIView.as_view()),
-    path('api/Core/productOptionList', ProductOptionAPIView.as_view()),
-    path('api/Core/productPriceList', ProductPriceAPIView.as_view())
+urlpatternsCore = [
+    path('api/v1/ProductAPIView', ProductAPIView.as_view()),
+    path('api/v1/ColorProductAPIView', ColorProductAPIView.as_view()),
+    path('api/v1/ImagesProductAPIView', ImagesProductAPIView.as_view())
 ]
