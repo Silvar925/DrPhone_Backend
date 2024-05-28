@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Product, ColorProduct, ImagesProduct
+from .models import NewDevices, ColorProduct, ImagesProduct
 
-@admin.register(Product)
+@admin.register(NewDevices)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['name']
     search_fields = ['name']

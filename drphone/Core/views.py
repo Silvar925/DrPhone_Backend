@@ -1,10 +1,10 @@
 from rest_framework import generics
-from .models import ColorProduct, ImagesProduct, Product
+from .models import ColorProduct, ImagesProduct, NewDevices
 from .serializer import ColorProductSerializer, ImagesProductSerializer, ProductSerializer
 
 
 class ProductAPIView(generics.ListAPIView):
-    queryset = Product.objects.all()
+    queryset = NewDevices.objects.all()
     serializer_class = ProductSerializer
 
 
