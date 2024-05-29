@@ -54,7 +54,7 @@ class NewDevices(models.Model):
     unique_id = models.SlugField(max_length=255, unique=True, editable=False)
 
     name = models.CharField(max_length=50, verbose_name='Название товара')
-    color = models.ManyToManyField(ColorProduct, verbose_name="Цвет")
+    color = models.ManyToManyField(ColorProduct, verbose_name="Цвет товара")
     memory = models.CharField(max_length=8, choices=MEMORY_CHOICES, blank=True, null=True, verbose_name='Память')
     images = models.ManyToManyField(ImagesProduct, verbose_name="Изображение")
     sim = models.CharField(max_length=20, choices=SIM_CHOICES, blank=True, null=True, verbose_name='СИМ КАРТА')
