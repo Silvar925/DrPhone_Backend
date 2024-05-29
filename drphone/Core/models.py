@@ -15,7 +15,7 @@ class ColorProduct(models.Model):
         return f"{self.name}"
 
 class ImagesProduct(models.Model):
-    name = models.CharField(max_length=30, verbose_name='Название изображения')
+    name = models.CharField(max_length=100, verbose_name='Название изображения')
     photo = models.ImageField(upload_to='media/ProductImages/', verbose_name="Изображение")
 
     class Meta:

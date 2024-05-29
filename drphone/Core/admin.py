@@ -8,7 +8,7 @@ from .models import NewDevices, ColorProduct, ImagesProduct, UsedDevices, Access
 class NewDevicesAdmin(admin.ModelAdmin):
     list_display = ['name', 'display_color', 'memory', 'price']
     search_fields = ['name', 'price', 'color__name', 'memory']
-    # filter_horizontal = ['color']
+    filter_horizontal = ['color', 'images']
     list_filter = ['color__name', 'memory', 'price']
 
     def display_color(self, obj):
@@ -34,6 +34,7 @@ class ImagesProductAdmin(admin.ModelAdmin):
 class UsedDevicesAdmin(admin.ModelAdmin):
     list_display = ['name', 'display_color', 'memory', 'price']
     search_fields = ['name', 'price', 'color__name', 'memory']
+    filter_horizontal = ['color', 'images']
     list_filter = ['color__name', 'memory', 'price']
 
     def display_color(self, obj):
