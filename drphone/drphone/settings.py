@@ -125,3 +125,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #API sucsesfull
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+# Указывает на корневую директорию, в которой будут храниться медиа-файлы
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# URL, по которому будут доступны медиа-файлы
+MEDIA_URL = '/media/'
