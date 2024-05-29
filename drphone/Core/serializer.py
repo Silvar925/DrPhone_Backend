@@ -26,7 +26,7 @@ class CoversSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class IMacSerializer(serializers.ModelSeriazalizer):
+class IMacSerializer(serializers.ModelSerializer):
     class Meta:
         model = IMac
         fields = "__all__"
