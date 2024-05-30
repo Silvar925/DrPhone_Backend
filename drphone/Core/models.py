@@ -38,9 +38,9 @@ def generate_unique_slug(instance, new_slug=None):
 
 class NewDevices(models.Model):
     SIM_CHOICES = [
-        ('SIM_SIM', 'SIM + SIM'),
-        ('ESIM_SIM', 'ESIM + SIM'),
-        ('ESIM_ONLY', 'ESIM ONLY'),
+        ('SIM+SIM', 'SIM + SIM'),
+        ('ESIM+SIM', 'ESIM + SIM'),
+        ('ESIM+ONLY', 'ESIM ONLY'),
     ]
 
     MEMORY_CHOICES = [
@@ -52,19 +52,19 @@ class NewDevices(models.Model):
     ]
 
     unique_id = models.SlugField(max_length=255, unique=True, editable=False)
-
     name = models.CharField(max_length=50, verbose_name='Название товара')
-    color = models.ManyToManyField(ColorProduct, verbose_name="Цвет товара")
+    allColors = models.ManyToManyField(ColorProduct, verbose_name='Все варианты цветов товара', related_name='devices')
+    color = models.ForeignKey(ColorProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Цвет товара", related_name='primary_devices')
     memory = models.CharField(max_length=8, choices=MEMORY_CHOICES, blank=True, null=True, verbose_name='Память')
-    images = models.ManyToManyField(ImagesProduct, verbose_name="Изображение")
+    images = models.ManyToManyField(ImagesProduct, verbose_name="Изображение", related_name='devices')
     sim = models.CharField(max_length=20, choices=SIM_CHOICES, blank=True, null=True, verbose_name='СИМ КАРТА')
+    discountedPrice = models.IntegerField(verbose_name='Цена со скидкой', blank=True, null=True)
     price = models.IntegerField(verbose_name="Цена", blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.unique_id:
             self.unique_id = generate_unique_slug(self)
         super().save(*args, **kwargs)
-
 
     class Meta:
         verbose_name = "Новое устройство"

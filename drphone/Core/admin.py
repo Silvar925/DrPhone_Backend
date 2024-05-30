@@ -6,16 +6,15 @@ from .models import NewDevices, ColorProduct, ImagesProduct, UsedDevices, Access
 
 @admin.register(NewDevices)
 class NewDevicesAdmin(admin.ModelAdmin):
-    list_display = ['name', 'display_color', 'memory', 'price']
-    search_fields = ['name', 'price', 'color__name', 'memory']
-    filter_horizontal = ['color', 'images']
+    list_display = ['name', 'display_color', 'color', 'memory', 'price']
+    search_fields = ['name', 'price', 'color__name', 'color', 'memory']
+    filter_horizontal = ['allColors', 'images']
     list_filter = ['color__name', 'memory', 'price']
 
     def display_color(self, obj):
-        return ', '.join([color.name for color in obj.color.all()])
+        return ', '.join([color.name for color in obj.allColors.all()])
 
-    display_color.short_description = 'Цвет товара'
-
+    display_color.short_description = 'Все варианты цветов'
 
 
 @admin.register(ColorProduct)
