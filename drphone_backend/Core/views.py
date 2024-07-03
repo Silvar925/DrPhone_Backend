@@ -1,38 +1,44 @@
 from django.shortcuts import render
+from rest_framework import viewsets
 from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Phones, PhonesOptions, Accessories, Covers, IMac, IMacOptions, AccessoriesOptions
-from .serializer import PhonesSerializer, PhonesOptionsSerializer, AccessoriesSerializer, CoversSerializer, IMacSerializer, IMacOptionsSerializer, AccessoriesOptionsSerializer
+from .serializer import PhonesSerializer, PhonesOptionsSerializer, AccessoriesSerializer, CoversSerializer, \
+    IMacSerializer, IMacOptionsSerializer, AccessoriesOptionsSerializer
 
 
-class PhonesAPIView(generics.ListAPIView):
+class PhonesAPIView(viewsets.ModelViewSet):
     queryset = Phones.objects.all()
     serializer_class = PhonesSerializer
 
 
-class PhonesOptionsAPIView(generics.ListAPIView):
+class PhonesOptionsAPIView(viewsets.ModelViewSet):
     queryset = PhonesOptions.objects.all()
     serializer_class = PhonesOptionsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['unique_id']
 
 
-class AccessoriesAPIView(generics.ListAPIView):
+class AccessoriesAPIView(viewsets.ModelViewSet):
     queryset = Accessories.objects.all()
     serializer_class = AccessoriesSerializer
 
-class AccessoriesOptionsAPIView(generics.ListAPIView):
+
+class AccessoriesOptionsAPIView(viewsets.ModelViewSet):
     queryset = AccessoriesOptions.objects.all()
     serializer_class = AccessoriesOptionsSerializer
 
 
-class CoversAPIView(generics.ListAPIView):
+class CoversAPIView(viewsets.ModelViewSet):
     queryset = Covers.objects.all()
     serializer_class = CoversSerializer
 
 
-class IMacAPIView(generics.ListAPIView):
+class IMacAPIView(viewsets.ModelViewSet):
     queryset = IMac.objects.all()
     serializer_class = IMacSerializer
 
 
-class IMacOptionsAPIView(generics.ListAPIView):
+class IMacOptionsAPIView(viewsets.ModelViewSet):
     queryset = IMacOptions.objects.all()
     serializer_class = IMacOptionsSerializer

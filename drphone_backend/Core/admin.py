@@ -26,6 +26,7 @@ class PhonesAdmin(admin.ModelAdmin):
 class PhonesOptionsAdmin(admin.ModelAdmin):
     list_display = ['phone', 'color', 'memory', 'sim']
     search_fields = ['name', 'manufacturer', 'allColors__name', 'allMemory__size']
+    filter_horizontal = ['images']
 
     list_filter = ['phone', 'color', 'memory', 'sim']
 
