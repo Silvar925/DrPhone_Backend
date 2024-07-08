@@ -20,7 +20,7 @@ class PhoneUtilSerizlizer(serializers.ModelSerializer):
 
 
 class PhonesOptionsSerializer(serializers.ModelSerializer):
-    phone = PhoneUtilSerizlizer(read_only=True)
+    phone = PhonesSerializer(read_only=True)
     color = ColorProductSerializer(read_only=True)
     memory = MemoryProductsSerializer(read_only=True)
     sim = SIMProductSerializer(read_only=True)
