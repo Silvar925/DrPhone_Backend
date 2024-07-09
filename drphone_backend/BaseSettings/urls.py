@@ -2,6 +2,8 @@ from django.urls import path
 from .views import ColorProductAPIView, ImagesProductAPIView, MemoryProductsAPIView, SIMProductAPIView, ManufacturerAPIView
 
 
+
+
 urlPatternsBaseSettings = [
     path('api/BaseSettings/ColorProductAPIView', ColorProductAPIView.as_view()),
     path('api/BaseSettings/ImagesProductAPIView', ImagesProductAPIView.as_view()),
