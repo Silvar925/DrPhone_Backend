@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Phones, PhonesOptions, Accessories, Covers, IMac, IMacOptions, AccessoriesOptions
-from BaseSettings.serializer import ColorProductSerializer, MemoryProductsSerializer, SIMProductSerializer, ManufacturerSerializer, ImagesProductSerializer
+from BaseSettings.serializer import ColorProductSerializer, MemoryProductsSerializer, SIMProductSerializer, \
+    ManufacturerSerializer, ImagesProductSerializer
 
 
 class PhonesSerializer(serializers.ModelSerializer):
@@ -8,6 +9,7 @@ class PhonesSerializer(serializers.ModelSerializer):
     allMemory = MemoryProductsSerializer(many=True)
     allSim = SIMProductSerializer(many=True)
     manufacturer = ManufacturerSerializer(read_only=True)
+
     class Meta:
         model = Phones
         fields = '__all__'
@@ -25,9 +27,16 @@ class PhonesOptionsSerializer(serializers.ModelSerializer):
     memory = MemoryProductsSerializer(read_only=True)
     sim = SIMProductSerializer(read_only=True)
     images = ImagesProductSerializer(many=True)
+
     class Meta:
         model = PhonesOptions
         fields = '__all__'
+
+
+class PhoneOptionsListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PhonesOptions
+        fields = ['unique_id']
 
 
 class AccessoriesSerializer(serializers.ModelSerializer):

@@ -4,7 +4,7 @@ from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Phones, PhonesOptions, Accessories, Covers, IMac, IMacOptions, AccessoriesOptions
 from .serializer import PhonesSerializer, PhonesOptionsSerializer, AccessoriesSerializer, CoversSerializer, \
-    IMacSerializer, IMacOptionsSerializer, AccessoriesOptionsSerializer
+    IMacSerializer, IMacOptionsSerializer, AccessoriesOptionsSerializer, PhoneOptionsListSerializer
 
 
 class PhonesAPIView(viewsets.ModelViewSet):
@@ -15,6 +15,13 @@ class PhonesAPIView(viewsets.ModelViewSet):
 class PhonesOptionsAPIView(viewsets.ModelViewSet):
     queryset = PhonesOptions.objects.all()
     serializer_class = PhonesOptionsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['unique_id']
+
+
+class PhoneOptionsListAPIView(viewsets.ModelViewSet):
+    queryset = PhonesOptions.objects.all()
+    serializer_class = PhoneOptionsListSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['unique_id']
 

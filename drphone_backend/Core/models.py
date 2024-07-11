@@ -26,10 +26,12 @@ class PhonesOptions(models.Model):
     color = models.ForeignKey(ColorProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Цвет")
     memory = models.ForeignKey(MemoryProducts, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Память")
     sim = models.ForeignKey(SIMProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Тип сим-карты")
-    
+
     images = models.ManyToManyField(ImagesProduct, verbose_name="Изображение", related_name='images_phone_options')
     used = models.BooleanField(default=False, verbose_name="Подержанный")
     discountedPrice = models.IntegerField(verbose_name='Цена со скидкой', blank=True, null=True)
+
+    count = models.IntegerField(verbose_name="Количество: ", blank=True, null=True)
     price = models.IntegerField(verbose_name="Цена", blank=True, null=True)
 
     def save(self, *args, **kwargs):
