@@ -1,3 +1,4 @@
+import re
 from django.db import models
 from BaseSettings.models import ColorProduct, ImagesProduct, MemoryProducts, SIMProduct, Manufacturer
 from transliterate import translit
@@ -22,7 +23,8 @@ class Phones(models.Model):
 class PhonesOptions(models.Model):
     unique_id = models.CharField(max_length=200, unique=True, blank=True, null=True, verbose_name='Уникальный ID')
     phone = models.ForeignKey(Phones, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Устройство")
-    
+    name = models.CharField(max_length=200, unique=True, blank=True, null=True, verbose_name='Название')
+
     color = models.ForeignKey(ColorProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Цвет")
     memory = models.ForeignKey(MemoryProducts, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Память")
     sim = models.ForeignKey(SIMProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Тип сим-карты")
@@ -34,9 +36,16 @@ class PhonesOptions(models.Model):
     count = models.IntegerField(verbose_name="Количество: ", blank=True, null=True)
     price = models.IntegerField(verbose_name="Цена", blank=True, null=True)
 
+    def camel_case(self, text):
+        # Преобразование строки в CamelCase
+        text = text.title().replace(' ', '').replace('+', '')
+        # Удаление любых небуквенных символов
+        text = re.sub(r'[^A-Za-z0-9]', '', text)
+        return text
+
     def save(self, *args, **kwargs):
-        # Генерация транслита с удалением плюса
-        name_translit = translit(str(self.phone), 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.phone else ''
+        # Генерация транслита с удалением плюса и преобразованием в CamelCase для name_translit
+        name_translit = self.camel_case(translit(str(self.phone), 'ru', reversed=True)) if self.phone else ''
         color_translit = translit(self.color.name, 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.color else ''
         memory_translit = translit(self.memory.size, 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.memory else ''
         sim_translit = translit(self.sim.type, 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.sim else ''
@@ -44,6 +53,7 @@ class PhonesOptions(models.Model):
         
         # Создание уникального ID
         self.unique_id = f"{name_translit}-{color_translit}-{memory_translit}-{sim_translit}-{used_translit}"
+        self.name = f"{self.phone} {self.color} {self.memory} {self.sim} {self.used}"
 
         super(PhonesOptions, self).save(*args, **kwargs)
 
