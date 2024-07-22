@@ -22,7 +22,7 @@ class PhoneUtilSerizlizer(serializers.ModelSerializer):
 
 
 class PhonesOptionsSerializer(serializers.ModelSerializer):
-    phone = PhonesSerializer(read_only=True)
+    device = PhonesSerializer(read_only=True)
     color = ColorProductSerializer(read_only=True)
     memory = MemoryProductsSerializer(read_only=True)
     sim = SIMProductSerializer(read_only=True)
@@ -40,12 +40,19 @@ class PhoneOptionsListSerializer(serializers.ModelSerializer):
 
 
 class AccessoriesSerializer(serializers.ModelSerializer):
+    allColors = ColorProductSerializer(many=True)
+    
     class Meta:
         model = Accessories
         fields = '__all__'
 
 
 class AccessoriesOptionsSerializer(serializers.ModelSerializer):
+    device = AccessoriesSerializer(read_only=True)
+    color = ColorProductSerializer(read_only=True)
+    memory = MemoryProductsSerializer(read_only=True)
+    images = ImagesProductSerializer(many = True, read_only=True)
+
     class Meta:
         model = AccessoriesOptions
         fields = '__all__'
@@ -58,12 +65,19 @@ class CoversSerializer(serializers.ModelSerializer):
 
 
 class IMacSerializer(serializers.ModelSerializer):
+    allColors = ColorProductSerializer(many=True)
+
     class Meta:
         model = IMac
         fields = '__all__'
 
 
 class IMacOptionsSerializer(serializers.ModelSerializer):
+    device = AccessoriesSerializer(read_only=True)
+    color = ColorProductSerializer(read_only=True)
+    memory = MemoryProductsSerializer(read_only=True)
+    images = ImagesProductSerializer(many = True, read_only=True)
+    
     class Meta:
         model = IMacOptions
         fields = '__all__'

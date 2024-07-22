@@ -24,11 +24,11 @@ class PhonesAdmin(admin.ModelAdmin):
 
 @admin.register(PhonesOptions)
 class PhonesOptionsAdmin(admin.ModelAdmin):
-    list_display = ['phone', 'color', 'memory', 'sim']
+    list_display = ['device', 'color', 'memory', 'sim']
     search_fields = ['name', 'manufacturer', 'allColors__name', 'allMemory__size']
     filter_horizontal = ['images']
 
-    list_filter = ['phone', 'color', 'memory', 'sim']
+    list_filter = ['device', 'color', 'memory', 'sim']
 
 
 @admin.register(Accessories)
@@ -46,8 +46,8 @@ class CoversAdmin(admin.ModelAdmin):
 
 @admin.register(AccessoriesOptions)
 class AccessoriesOptionsAdmin(admin.ModelAdmin):
-    list_display = ['accessories', 'color', 'memory', 'sim']
-    search_fields = ['accessories', 'color', 'memory', 'sim']
+    list_display = ['device', 'color', 'memory', 'sim']
+    search_fields = ['device', 'color', 'memory', 'sim']
     filter_horizontal = ['images']
 
 
@@ -60,5 +60,5 @@ class IMacAdmin(admin.ModelAdmin):
 
 @admin.register(IMacOptions)
 class IMacOptionsSerializer(admin.ModelAdmin):
-    list_display = ['imac', 'color', 'memory', 'price']
-    search_fields = ['imac', 'color', 'memory', 'price']
+    list_display = ['device', 'color', 'memory', 'price']
+    search_fields = ['device', 'color', 'memory', 'price']

@@ -34,6 +34,8 @@ class AccessoriesAPIView(viewsets.ModelViewSet):
 class AccessoriesOptionsAPIView(viewsets.ModelViewSet):
     queryset = AccessoriesOptions.objects.all()
     serializer_class = AccessoriesOptionsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['unique_id']
 
 
 class CoversAPIView(viewsets.ModelViewSet):

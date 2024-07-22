@@ -22,7 +22,7 @@ class Phones(models.Model):
 
 class PhonesOptions(models.Model):
     unique_id = models.CharField(max_length=200, unique=True, blank=True, null=True, verbose_name='Уникальный ID')
-    phone = models.ForeignKey(Phones, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Устройство")
+    device = models.ForeignKey(Phones, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Устройство")
     name = models.CharField(max_length=200, unique=True, blank=True, null=True, verbose_name='Название')
 
     color = models.ForeignKey(ColorProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Цвет")
@@ -45,7 +45,7 @@ class PhonesOptions(models.Model):
 
     def save(self, *args, **kwargs):
         # Генерация транслита с удалением плюса и преобразованием в CamelCase для name_translit
-        name_translit = self.camel_case(translit(str(self.phone), 'ru', reversed=True)) if self.phone else ''
+        name_translit = self.camel_case(translit(str(self.device), 'ru', reversed=True)) if self.device else ''
         color_translit = translit(self.color.name, 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.color else ''
         memory_translit = translit(self.memory.size, 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.memory else ''
         sim_translit = translit(self.sim.type, 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.sim else ''
@@ -53,17 +53,17 @@ class PhonesOptions(models.Model):
         
         # Создание уникального ID
         self.unique_id = f"{name_translit}-{color_translit}-{memory_translit}-{sim_translit}-{used_translit}"
-        self.name = f"{self.phone} {self.color} {self.memory} {self.sim} {self.used}"
+        self.name = f"{self.device} {self.color} {self.memory} {self.sim} {self.used}"
 
-        super(PhonesOptions, self).save(*args, **kwargs)
+        super(PhonesOptions, self).save(*args, **kwargs) 
 
 
     class Meta:
         verbose_name = "Вариант телефона"
-        verbose_name = "Варианты телефона"
+        verbose_name_plural = "Варианты телефонов"
 
     def __str__(self) -> str:
-        return f"{self.phone}-{self.color}-{self.memory}-{self.sim}"
+        return f"{self.device}-{self.color}-{self.memory}-{self.sim}"
 
 
 class Accessories(models.Model):
@@ -83,7 +83,9 @@ class Accessories(models.Model):
 
 
 class AccessoriesOptions(models.Model):
-    accessories = models.ForeignKey(Accessories, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Аксессуар")
+    unique_id = models.CharField(max_length=200, unique=True, blank=True, null=True, verbose_name='Уникальный ID')
+
+    device = models.ForeignKey(Accessories, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Аксессуар")
 
     color = models.ForeignKey(ColorProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Цвет")
     memory = models.ForeignKey(MemoryProducts, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Память")
@@ -91,10 +93,18 @@ class AccessoriesOptions(models.Model):
     images = models.ManyToManyField(ImagesProduct, verbose_name="Изображение")
 
     used = models.BooleanField(default=False, verbose_name="Подержанный")
+    price = models.IntegerField(verbose_name="Цена", blank=True, null=True)
+
+    def camel_case(self, text):
+        # Преобразование строки в CamelCase
+        text = text.title().replace(' ', '').replace('+', '')
+        # Удаление любых небуквенных символов
+        text = re.sub(r'[^A-Za-z0-9]', '', text)
+        return text
 
     def save(self, *args, **kwargs):
-        # Генерация транслита с удалением плюса
-        name_translit = translit(str(self.accessories), 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.accessories else ''
+        # Генерация транслита с удалением плюса и преобразованием в CamelCase для name_translit
+        name_translit = self.camel_case(translit(str(self.device), 'ru', reversed=True)) if self.device else ''
         color_translit = translit(self.color.name, 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.color else ''
         memory_translit = translit(self.memory.size, 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.memory else ''
         sim_translit = translit(self.sim.type, 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.sim else ''
@@ -102,9 +112,9 @@ class AccessoriesOptions(models.Model):
         
         # Создание уникального ID
         self.unique_id = f"{name_translit}-{color_translit}-{memory_translit}-{sim_translit}-{used_translit}"
+        self.name = f"{self.device} {self.color} {self.memory} {self.sim} {self.used}"
 
         super(AccessoriesOptions, self).save(*args, **kwargs)
-
 
 
     class Meta:
@@ -112,7 +122,7 @@ class AccessoriesOptions(models.Model):
         verbose_name_plural = "Варианты аксессуаров"
 
     def __str__(self) -> str:
-        return f"{self.accessories}-{self.color}-{self.memory}-{self.sim}-{self.used}"
+        return f"{self.device}-{self.color}-{self.memory}-{self.sim}-{self.used}"
 
 
 class Covers(models.Model):
@@ -146,7 +156,7 @@ class IMac(models.Model):
 
 class IMacOptions(models.Model):
     unique_id = models.CharField(max_length=200, unique=True, blank=True, null=True, verbose_name='Уникальный ID')
-    imac = models.ForeignKey(IMac, verbose_name="iMac", on_delete=models.SET_NULL, null=True, blank=True)
+    device = models.ForeignKey(IMac, verbose_name="iMac", on_delete=models.SET_NULL, null=True, blank=True)
 
     color = models.ForeignKey(ColorProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Цвет")
     memory = models.ForeignKey(MemoryProducts, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Память")
@@ -157,7 +167,7 @@ class IMacOptions(models.Model):
 
     def save(self, *args, **kwargs):
         # Генерация транслита с удалением плюса
-        name_translit = translit(str(self.imac), 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.imac else ''
+        name_translit = translit(str(self.device), 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.imac else ''
         color_translit = translit(self.color.name, 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.color else ''
         memory_translit = translit(self.memory.size, 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.memory else ''
         used_translit = 'used' if self.used else 'new'
@@ -172,7 +182,4 @@ class IMacOptions(models.Model):
         verbose_name_plural = "Варианты IMac'ов"
 
     def __str__(self) -> str:
-        return f"{self.imac}-{self.color}-{self.memory}"
-    
-
-# filter_horizontal
+        return f"{self.device}-{self.color}-{self.memory}"
