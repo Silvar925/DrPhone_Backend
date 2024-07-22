@@ -37,6 +37,7 @@ class AccessoriesAdmin(admin.ModelAdmin):
     search_fields = ['name', 'price']
 
 
+
 @admin.register(Covers)
 class CoversAdmin(admin.ModelAdmin):
     list_display = ['name', 'price']
@@ -47,6 +48,8 @@ class CoversAdmin(admin.ModelAdmin):
 class AccessoriesOptionsAdmin(admin.ModelAdmin):
     list_display = ['accessories', 'color', 'memory', 'sim']
     search_fields = ['accessories', 'color', 'memory', 'sim']
+    filter_horizontal = ['images']
+
 
 
 @admin.register(IMac)

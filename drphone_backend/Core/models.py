@@ -70,8 +70,7 @@ class Accessories(models.Model):
     name = models.CharField(max_length=50, verbose_name='Название товара')
     allColors = models.ManyToManyField(ColorProduct, verbose_name="Цвет")
     
-    allMemory = models.ManyToManyField(MemoryProducts, verbose_name='Память')
-    images = models.ManyToManyField(ImagesProduct, verbose_name="Изображение")
+    allMemory = models.ManyToManyField(MemoryProducts, verbose_name='Память', blank=True, null=True)
     price = models.IntegerField(verbose_name="Цена", blank=True, null=True)
 
     class Meta:
@@ -89,6 +88,8 @@ class AccessoriesOptions(models.Model):
     color = models.ForeignKey(ColorProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Цвет")
     memory = models.ForeignKey(MemoryProducts, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Память")
     sim = models.ForeignKey(SIMProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Тип сим-карты")
+    images = models.ManyToManyField(ImagesProduct, verbose_name="Изображение")
+
     used = models.BooleanField(default=False, verbose_name="Подержанный")
 
     def save(self, *args, **kwargs):
