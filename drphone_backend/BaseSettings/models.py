@@ -54,3 +54,14 @@ class Manufacturer(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name}"
+    
+
+class RAM(models.Model):
+    size = models.CharField(max_length=30, verbose_name='Объем памяти')
+
+    class Meta:
+        verbose_name = "Оперативная память"
+        verbose_name_plural = "Оперативные памяти"
+
+    def __str__(self) -> str:
+        return f"{self.size}"

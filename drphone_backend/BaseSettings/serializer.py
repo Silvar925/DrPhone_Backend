@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ColorProduct, ImagesProduct, MemoryProducts, SIMProduct, Manufacturer
+from .models import ColorProduct, ImagesProduct, MemoryProducts, SIMProduct, Manufacturer, RAM
 
 
 class ColorProductSerializer(serializers.ModelSerializer):
@@ -30,3 +30,9 @@ class ManufacturerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Manufacturer
         fields = "__all__"
+
+
+class RAMSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RAM
+        fields = '__all__'

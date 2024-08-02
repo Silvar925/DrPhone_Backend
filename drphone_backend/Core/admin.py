@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PhonesOptions, Phones, Accessories, AccessoriesOptions, Covers, IMac, IMacOptions
+from .models import PhonesOptions, Phones, Accessories, AccessoriesOptions, Covers, IMac, IMacOptions, CoversOptions
 from transliterate import translit, get_available_language_codes
 
 
@@ -42,6 +42,12 @@ class AccessoriesAdmin(admin.ModelAdmin):
 class CoversAdmin(admin.ModelAdmin):
     list_display = ['name', 'price']
     search_fields = ['name', 'price']
+    
+    
+@admin.register(CoversOptions)
+class CoversOptionsAdmin(admin.ModelAdmin):
+    list_display = ['device', 'color']
+    search_fields = ['name', 'device', 'color' ]
 
 
 @admin.register(AccessoriesOptions)
@@ -62,3 +68,4 @@ class IMacAdmin(admin.ModelAdmin):
 class IMacOptionsSerializer(admin.ModelAdmin):
     list_display = ['device', 'color', 'memory', 'price']
     search_fields = ['device', 'color', 'memory', 'price']
+    filter_horizontal = ['images']

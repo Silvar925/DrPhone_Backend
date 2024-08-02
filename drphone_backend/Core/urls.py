@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from .views import PhonesAPIView, PhonesOptionsAPIView, AccessoriesAPIView, CoversAPIView, IMacAPIView, \
-    IMacOptionsAPIView, AccessoriesOptionsAPIView, PhoneOptionsListAPIView
+    IMacOptionsAPIView, AccessoriesOptionsAPIView, PhoneOptionsListAPIView, CoversOptionsAPIView
 
 router = DefaultRouter()
 
@@ -15,6 +15,7 @@ router.register(r'accessories-options', AccessoriesOptionsAPIView, basename='acc
 router.register(r'covers', CoversAPIView, basename='covers')
 router.register(r'imac', IMacAPIView, basename='imac')
 router.register(r'imac-options', IMacOptionsAPIView, basename='imac-options')
+router.register(r'covers-options', CoversOptionsAPIView, basename='covers-options')
 
 urlpatterns = [
     path('api/Core/', include(router.urls)),

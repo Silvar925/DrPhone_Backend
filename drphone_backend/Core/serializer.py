@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Phones, PhonesOptions, Accessories, Covers, IMac, IMacOptions, AccessoriesOptions
+from .models import Phones, PhonesOptions, Accessories, Covers, IMac, IMacOptions, AccessoriesOptions, CoversOptions
 from BaseSettings.serializer import ColorProductSerializer, MemoryProductsSerializer, SIMProductSerializer, \
     ManufacturerSerializer, ImagesProductSerializer
 
@@ -59,13 +59,26 @@ class AccessoriesOptionsSerializer(serializers.ModelSerializer):
 
 
 class CoversSerializer(serializers.ModelSerializer):
+    allColors = ColorProductSerializer(many=True)
+
     class Meta:
         model = Covers
         fields = '__all__'
 
 
+class CoversOptionsSerializer(serializers.ModelSerializer):
+    device = CoversSerializer(read_only=True)
+    color = ColorProductSerializer(read_only=True)
+    images = ImagesProductSerializer(many = True, read_only=True)
+
+    class Meta:
+        model = CoversOptions
+        fields = '__all__'
+
+
 class IMacSerializer(serializers.ModelSerializer):
     allColors = ColorProductSerializer(many=True)
+    allMemory = MemoryProductsSerializer(many=True)
 
     class Meta:
         model = IMac
@@ -73,10 +86,10 @@ class IMacSerializer(serializers.ModelSerializer):
 
 
 class IMacOptionsSerializer(serializers.ModelSerializer):
-    device = AccessoriesSerializer(read_only=True)
+    device = IMacSerializer(read_only=True)
     color = ColorProductSerializer(read_only=True)
     memory = MemoryProductsSerializer(read_only=True)
-    images = ImagesProductSerializer(many = True, read_only=True)
+    images = ImagesProductSerializer(many=True, read_only=True)
     
     class Meta:
         model = IMacOptions

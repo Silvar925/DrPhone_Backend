@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .models import ColorProduct, ImagesProduct, MemoryProducts, SIMProduct, Manufacturer
-from .serializer import ColorProductSerializer, ImagesProductSerializer, MemoryProductsSerializer, SIMProductSerializer, ManufacturerSerializer
+from .models import ColorProduct, ImagesProduct, MemoryProducts, SIMProduct, Manufacturer, RAM
+from .serializer import ColorProductSerializer, ImagesProductSerializer, MemoryProductsSerializer, SIMProductSerializer, ManufacturerSerializer, RAMSerializer
 
 
 class ColorProductAPIView(generics.ListAPIView):
@@ -27,3 +27,8 @@ class SIMProductAPIView(generics.ListAPIView):
 class ManufacturerAPIView(generics.ListAPIView):
     queryset = Manufacturer.objects.all()
     serializer_class = ManufacturerSerializer
+
+
+class RAMAPIView(generics.ListAPIView):
+    queryset = RAM.objects.all()
+    serializer_class = RAMSerializer

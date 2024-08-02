@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ColorProduct, ImagesProduct, MemoryProducts, SIMProduct, Manufacturer
+from .models import ColorProduct, ImagesProduct, MemoryProducts, SIMProduct, Manufacturer, RAM
 
 
 @admin.register(ColorProduct)
@@ -30,3 +30,9 @@ class SIMProductAdmin(admin.ModelAdmin):
 class ManufacturerAdmin(admin.ModelAdmin):
     list_display = ['name']
     search_fields = ['name']
+
+
+@admin.register(RAM)
+class RAMAdmin(admin.ModelAdmin):
+    list_display = ['size']
+    search_fields = ['size']

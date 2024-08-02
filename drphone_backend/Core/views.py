@@ -2,9 +2,9 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Phones, PhonesOptions, Accessories, Covers, IMac, IMacOptions, AccessoriesOptions
+from .models import Phones, PhonesOptions, Accessories, Covers, IMac, IMacOptions, AccessoriesOptions, CoversOptions
 from .serializer import PhonesSerializer, PhonesOptionsSerializer, AccessoriesSerializer, CoversSerializer, \
-    IMacSerializer, IMacOptionsSerializer, AccessoriesOptionsSerializer, PhoneOptionsListSerializer
+    IMacSerializer, IMacOptionsSerializer, AccessoriesOptionsSerializer, PhoneOptionsListSerializer, CoversOptionsSerializer
 
 
 class PhonesAPIView(viewsets.ModelViewSet):
@@ -42,6 +42,11 @@ class CoversAPIView(viewsets.ModelViewSet):
     queryset = Covers.objects.all()
     serializer_class = CoversSerializer
 
+class CoversOptionsAPIView(viewsets.ModelViewSet):
+    queryset = CoversOptions.objects.all()
+    serializer_class = CoversOptionsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['unique_id']
 
 class IMacAPIView(viewsets.ModelViewSet):
     queryset = IMac.objects.all()
@@ -51,3 +56,6 @@ class IMacAPIView(viewsets.ModelViewSet):
 class IMacOptionsAPIView(viewsets.ModelViewSet):
     queryset = IMacOptions.objects.all()
     serializer_class = IMacOptionsSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['unique_id']
+
