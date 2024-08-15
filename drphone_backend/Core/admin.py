@@ -52,8 +52,8 @@ class CoversOptionsAdmin(admin.ModelAdmin):
 
 @admin.register(AccessoriesOptions)
 class AccessoriesOptionsAdmin(admin.ModelAdmin):
-    list_display = ['device', 'color', 'memory', 'sim']
-    search_fields = ['device', 'color', 'memory', 'sim']
+    list_display = ['device', 'color', 'memory']
+    search_fields = ['device', 'color', 'memory']
     filter_horizontal = ['images']
 
 

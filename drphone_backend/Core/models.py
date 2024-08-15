@@ -89,7 +89,7 @@ class AccessoriesOptions(models.Model):
 
     color = models.ForeignKey(ColorProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Цвет")
     memory = models.ForeignKey(MemoryProducts, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Память")
-    sim = models.ForeignKey(SIMProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Тип сим-карты")
+    # sim = models.ForeignKey(SIMProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Тип сим-карты")
     images = models.ManyToManyField(ImagesProduct, verbose_name="Изображение")
 
     used = models.BooleanField(default=False, verbose_name="Подержанный")
@@ -197,6 +197,7 @@ class IMac(models.Model):
 class IMacOptions(models.Model):
     unique_id = models.CharField(max_length=200, unique=True, blank=True, null=True, verbose_name='Уникальный ID')
     device = models.ForeignKey(IMac, verbose_name="iMac", on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=200, unique=True, blank=True, null=True, verbose_name='Название')
 
     RAM = models.ForeignKey(RAM, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Объединенная память")
     color = models.ForeignKey(ColorProduct, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Цвет")
@@ -222,6 +223,8 @@ class IMacOptions(models.Model):
         ram_translit = translit(self.RAM.size, 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.RAM else ''
         memory_translit = translit(self.memory.size, 'ru', reversed=True).replace(' ', '-').replace('+', '') if self.memory else ''
         used_translit = 'used' if self.used else 'new'
+
+        self.name = f"{self.device} {self.color}"
         
         # Создание уникального ID
         self.unique_id = f"imac-{name_translit}-{color_translit}-{memory_translit}-{used_translit}-{ram_translit}"
